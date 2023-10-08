@@ -1,40 +1,40 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteContact } from 'redux/contacts/actions'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/contacts/actions';
 
 const ContactsList = () => {
+  const [filtered, setFiltered] = useState([]);
+  const { contacts, filter } = useSelector(store => store.contacts);
 
-    const { contacts } = useSelector((store) => store.contacts)
+  const dispatch = useDispatch();
 
-const dispatch = useDispatch()
+  const deleteItem = id => {
+    dispatch(deleteContact(id));
+  };
 
-    const deleteItem = (id) =>{
-        dispatch(deleteContact(id))
+  useEffect(() => {
+    setFiltered(
+      contacts.filter(el =>
+        el.name.toLowerCase().includes(filter.toLowerCase())
+      )
+    );
+  }, [contacts, filter]);
 
-    }
-    const ct = (id) =>{
-        deleteContact(id)
-
-    }
-
-    return (
+  return (
     <div>
-        <ul>
-      {contacts && contacts.map(contact => (
-        <li key={contact.id}>
-          <p>
-            {contact.name}: {contact.number}
-          </p>
-          <button
-            onClick={() => deleteItem(contact.id)}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
-    </ul>
+      <ul>
+        {filtered &&
+          filtered.map(contact => (
+            <li key={contact.id}>
+              <p>
+                {contact.name}: {contact.number}
+              </p>
+              <button onClick={() => deleteItem(contact.id)}>Delete</button>
+            </li>
+          ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default ContactsList
+export default ContactsList;

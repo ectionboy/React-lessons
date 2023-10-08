@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import { initialState } from "./initialState";
-import { ADD_CONTACT, DELETE_CONTACT } from "./types";
+import { ADD_CONTACT, DELETE_CONTACT, FILTER } from "./types";
 
 export const contactsReducer = (state = initialState, { type, payload}) => {
     switch (type) {
@@ -23,7 +23,13 @@ export const contactsReducer = (state = initialState, { type, payload}) => {
                     ...state.contacts.filter(el => el.id !== payload),
                 ]
                 }
-    
+
+                case FILTER:
+                    return{
+                        ...state,
+                        filter: payload,
+                        }
+                
         default:
             return state
     }
