@@ -1,29 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react';
 
-const ContactsList = () => {
+const ContactsList = ({ contacts, deleteItem }) => {
+  console.log('contacts', contacts);
 
-    const { contacts } = useSelector((store) => store.contacts)
-console.log('contacts', contacts)
+
 
   return (
     <div>
-        <ul>
-      {contacts && contacts.map(contact => (
-        <li key={contact.id}>
-          <p>
-            {contact.name}: {contact.number}
-          </p>
-          <button
-            // onClick={() => deleteContact(contact.id)}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
-    </ul>
+      <ul>
+        {contacts &&
+          contacts.map(contact => (
+            <li key={contact.id}>
+              <p>
+                {contact.name}: {contact.number}
+              </p>
+              <button onClick={() => deleteItem(contact.id)}>Delete</button>
+            </li>
+          ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default ContactsList
+export default ContactsList;
