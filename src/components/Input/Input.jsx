@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/contacts/actions';
 
 const Input = () => {
     const [name, setName] = useState('');
@@ -8,7 +9,7 @@ const Input = () => {
     const dispatch = useDispatch()
 
 const createContact = (data) =>{
-    dispatch({ type: 'addContact', payload: data })
+    dispatch(addContact(data))
 }
 
 
@@ -52,7 +53,7 @@ const createContact = (data) =>{
             required
           />
         </div>
-        <button className="btn btn-primary mt-2" type="submit">
+        <button type="submit">
           Add contact
         </button>
       </form>

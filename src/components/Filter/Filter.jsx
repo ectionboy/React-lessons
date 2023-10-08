@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Filter = ({ filter }) => {
   return (
-    <div className="d-flex flex-column">
+    <div>
       <label htmlFor="contactsfilter">Find contacts by name</label>
       <input
         type="text"
