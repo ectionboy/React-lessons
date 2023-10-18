@@ -1,40 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/contacts/actions';
+import Filter from 'components/Filter/Filter'
+import React, { useEffect, useState } from 'react'
+import {  useSelector } from 'react-redux';
+// import { deleteContacts } from 'redux/contacts/slice';
+import { ContactsContainer, ContactsListUl, ContactsItem, ContactsButton } from './ContactsList.styled';
+
 
 const ContactsList = () => {
-  const [filtered, setFiltered] = useState([]);
-  const { contacts, filter } = useSelector(store => store.contacts);
-
-  const dispatch = useDispatch();
-
-  const deleteItem = id => {
-    dispatch(deleteContact(id));
-  };
-
-  useEffect(() => {
-    setFiltered(
-      contacts.filter(el =>
-        el.name.toLowerCase().includes(filter.toLowerCase())
-      )
-    );
-  }, [contacts, filter]);
+    const [filtered, setFiltered] = useState([]);
+    const { contacts, filter } = useSelector(store => store.contacts);
+    // const dispatch = useDispatch();
+  
+    // const deleteItem = id => {
+    //   dispatch(deleteContacts(id));
+    // };
+  
+    useEffect(() => {
+        if (filter && contacts.items) {
+            setFiltered(
+          contacts.items.filter(el =>
+            el.name.toLowerCase().includes(filter.toLowerCase())
+          )
+        )
+        }else {
+            setFiltered(contacts.items)
+        }
+        
+      }, [contacts, filter]);
 
   return (
-    <div>
-      <ul>
+    <ContactsContainer> 
+        <h2>Contacts</h2>
+        <Filter />
+        <div>
+      <ContactsListUl>
         {filtered &&
           filtered.map(contact => (
-            <li key={contact.id}>
+            <ContactsItem key={contact.id}>
               <p>
-                {contact.name}: {contact.number}
+                {contact.name}: {contact.phone}
               </p>
-              <button onClick={() => deleteItem(contact.id)}>Delete</button>
-            </li>
+              <ContactsButton 
+              // onClick={() => deleteItem(contact.id)}
+              >Delete</ContactsButton>
+            </ContactsItem>
           ))}
-      </ul>
+      </ContactsListUl>
     </div>
-  );
-};
 
-export default ContactsList;
+    </ContactsContainer>
+  )
+}
+
+export default ContactsList
